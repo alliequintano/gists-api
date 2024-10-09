@@ -8,10 +8,17 @@ from gists_api import get_gists
 
 class TestGistsApi(unittest.TestCase):
 
+    @patch('gists_api.requests.get')
+    def test_get_gists_accepts_user(self, mock_get):
+        mock_get.return_value.status_code = 200
+        response = get_gists('octocat')
+        self.assertEqual(response.status_code, 200)
+
+
     @patch('gists_api.requests.get') 
     def test_get_gists_makes_request(self, mock_get):
         mock_get.return_value.status_code = 200
-        response = get_gists()
+        response = get_gists('octocat')
         self.assertEqual(response.status_code, 200)
 
 
