@@ -4,6 +4,7 @@ class GithubApiClient:
         self._client = client
 
     def get_gists(self, user):
-        return self._client.get(
+        response = self._client.get(
              f"https://api.github.com/users/{user}/gists"
-        ).json()
+        )
+        return response.json(), response.status_code
