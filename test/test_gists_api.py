@@ -15,6 +15,15 @@ class TestGistsApi(unittest.TestCase):
         self.app = app.test_client()
 
     @patch('github_api_client.GithubApiClient.get_gists')
+    def test_no_gists(self, mock_get):
+        mock_get.return_value = [], 304
+        response = self.app.get(
+            "/notauser/",
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    @patch('github_api_client.GithubApiClient.get_gists')
     def test_user_not_found(self, mock_get):
         mock_get.return_value = {"status": "404"}, 404
         response = self.app.get(
