@@ -1,22 +1,28 @@
 import httpx
 from github_api_client import GithubApiClient
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, json
+from werkzeug.exceptions import HTTPException
 
 
 app = Flask(__name__)
 
-@app.errorhandler(404)
-def resource_not_found(error):
-    return jsonify(error=str(error)), 404
+@app.errorhandler(HTTPException)
+def handle_exception(error):
+    response = error.get_response()
+    response.data = json.dumps({
+        "code": error.code,
+        "name": error.name,
+        "description": error.description,
+    })
+    response.content_type = "application/json"
+    return response
 
 @app.route("/<user>/", methods=["GET"])
 def get_user(user):
     client = GithubApiClient(httpx)
     response = list_gists_for_user(client, user)
     data, status = response[0], response[1]
-    if status == 404:
-        abort(404, description="User not found")
-    return jsonify(data)
+    return jsonify(data), status
 
 def list_gists_for_user(client, user):
     return client.get_gists(user)
