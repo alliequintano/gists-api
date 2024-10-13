@@ -23,7 +23,7 @@ class TestGistsApi(unittest.TestCase):
 
     @patch('github_api_client.GithubApiClient.get_gists')
     def test_no_gists(self, mock_get):
-        mock_get.return_value = ([], 200)
+        mock_get.return_value = [], 200
         response = self.app.get(
             "/userwithnogists/",
             content_type="application/json",
