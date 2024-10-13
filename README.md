@@ -1,5 +1,15 @@
 # gists-api
-Simple API to list a GitHub user’s public gists
+Simple API to list a GitHub user’s public gists. Fetches data from the GitHub API.
+
+## API endpoints
+### User
+```
+GET /{user}
+```
+Retrieve gists for given user (e.g. `GET /octocat`).
+
+#### Response
+(Does not currently modify the response from the GitHub API, see: https://docs.github.com/en/rest/gists/gists#list-gists-for-a-user)
 
 ## Run
 Build and run with Docker
