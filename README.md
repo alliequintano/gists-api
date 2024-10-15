@@ -1,6 +1,8 @@
 # gists-api
 Simple API to list a GitHub user’s public gists. Fetches data from the GitHub API.
 
+Note: Pagination of the GitHub API not supported yet.
+
 ## API endpoints
 ### User
 ```
